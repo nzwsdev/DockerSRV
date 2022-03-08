@@ -1,0 +1,34 @@
+version: "3"
+
+
+networks:
+  __TMPL_SERVICE_NET__:
+    name: __TMPL_SERVICE_NET__
+
+
+services:
+  __TMPL_SERVICE_NET__-__TMPL_SERVICE_NAME__:
+    restart: always
+    # build:
+    #   context: dockerfile_dir
+    #   # args:
+    #   #  - SAMLE_ARG1=${SAMLE_ARG1_ENV}
+    image: __TMPL_SERVICE_NAME__:${__TMPL_SERVICE_NAME_UC___TAG}
+    container_name: ${__TMPL_SERVICE_NAME_UC___HOST_ADDR}
+    hostname: ${__TMPL_SERVICE_NAME_UC___HOST_ADDR}
+    environment:
+      - NZWS_RAILS=${RAILS}
+    volumes:
+      - ${DOCKER_ROOT}/__TMPL_SERVICE_NET__-__TMPL_SERVICE_NAME__/srv/config:/etc/__FIXME__:ro
+      - ${DOCKER_ROOT}/__TMPL_SERVICE_NET__-__TMPL_SERVICE_NAME__/srv/data:/srv/__FIXME__:rw
+    user:
+      "${__TMPL_SERVICE_NAME_UC___SYS_USER_UID}:${__TMPL_SERVICE_NAME_UC___SYS_USER_GID}"
+    networks:
+      - __TMPL_SERVICE_NET__
+    ports:
+      - "${__TMPL_SERVICE_NAME_UC___PORT_ADDR}:${__TMPL_SERVICE_NAME_UC___PORT_ADDR}"
+    # command:
+    #   - --arganme=argvalue
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=__TMPL_SERVICE_NET__"
